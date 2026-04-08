@@ -1,0 +1,18 @@
+import pandas as pd
+import numpy as np
+data=pd.read_csv("data.csv")
+attributes=data.iloc[:,:-1].values
+target=data.iloc[:,-1].values
+def train(attributes,target):
+    for i in range(len(target)):
+        if target[i] == "yes":
+            hypothesis = attributes[i].copy()
+            break
+    for i in range(len(attributes)):
+        if target[i] == "yes":
+            for j in range(len(hypothesis)):
+                if attributes[i][j]!=hypothesis[j]:
+                    hypothesis[j]="?"
+    return hypothesis
+final_hypothesis=train(attributes,target)
+print("Final hypothesis:",final_hypothesis)
