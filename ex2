@@ -1,0 +1,24 @@
+import pandas as pd
+data=pd.read_csv("data2.csv")
+x=data.iloc[:,:-1].values.tolist()
+y=data.iloc[:,-1].values.tolist()
+def learn(x,y):
+    s=x[0].copy()
+    g=[]
+    for i in range(len(x)):
+        if y[i].lower() =="yes":
+            for j in range(len(s)):
+                if x[i][j]!=s[j]:
+                    s[j]="?"
+        else:
+            for j in range(len(s)):
+                if x[i][j]!=s[j]:
+                    temp=["?" for _ in range(len(s))]
+                    temp[j]=s[j]
+                    g.append(temp)
+    return s,g
+s,g=learn(x,y)
+print("Specific Hypothesis:",s)
+print("General Hypothesis:")
+for row in g:
+    print(row)
