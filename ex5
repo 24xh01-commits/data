@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+data=pd.read_csv("data5.csv")
+for cols in data.columns:
+    data[cols] = LabelEncoder().fit_transform(data[cols])
+x = data.iloc[:,:-1]
+y = data.iloc[:,-1]
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
+model = DecisionTreeClassifier(criterion = "entropy")
+model.fit(x_train, y_train)
+
+y_pred = model.predict(x_test)
+print("Accuracy:",accuracy_score(y_test, y_pred))
+
+rules = export_text(model, feature_names = list(x.columns))
+print("Rules:",rules)
+plt.figure(figsize=(8,6))
+plot_tree(model, feature_names = x.columns)
+plt.show()
