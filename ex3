@@ -1,0 +1,14 @@
+from efficient_apriori import apriori
+import pandas as pd
+data=pd.read_csv("data3.csv")
+transactions=[row.split(",") for row in data["items"]]
+itemsets, rules =apriori(transactions,min_support=0.3,min_confidence=0.4)
+print("Itemsets:")
+for k in itemsets:
+    print(itemsets[k])
+print("Association Rule:")
+for rule in rules:
+    print(rule.lhs ,"=>", rule.rhs,
+          "|support:", round(rule.support,2),
+          "|confidence:", round(rule.confidence,2),
+          "|Lift:", round(rule.confidence,2))
